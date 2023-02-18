@@ -27,13 +27,58 @@ def problem1(x: float, degree: int):
 
     ans: float = float(matrix[degree, degree])
     print(ans)
+    print()
     return ans
 
 def problem2():
-    print()
+    x_table = [7.2, 7.4, 7.5, 7.6]
+    fx_table = [23.5492, 25.3913, 26.8224, 27.4589]
+    size: int = 4
+    matrix: np.array = np.zeros((4,4))
 
-def problem3():
+    for index, row in enumerate(matrix):
+        row[0] = float(fx_table[index])
+
+    for i in range(1, 4):
+        for j in range(1, 4):
+            numerator: float = float(matrix[i][j-1] - matrix[i-1][j-1])
+
+            denominator: float = float(x_table[i] - x_table[i-j])
+
+            operation: float = float(numerator / denominator)
+
+            #matrix[i][j] = '{0:.7g}'.format(operation)
+            matrix[i][j] = float(operation)
+        print(float(matrix[i][i]))
+
     print()
+    return matrix
+
+def problem3(matrix, x: float, x_table):
+    reoccuring_x_span: float = 1
+    reoccuring_px_result: float = matrix[0][0]
+
+    # pn(x) = p(n-1) + matrix[n][n](x-)
+
+    for index in range(1, 4):
+        polynomial_coefficient: float = matrix[index][index]
+
+        i: int = index
+        #reoccuring_x_span *= float(x - x_table[index])
+        x_span_mult: float = float(x - x_table[i-1])
+        i = i-1
+
+        while i>0:
+            x_span_mult *= float(x-x_table[i-1])
+            i = i-1
+
+        mult_operation: float = float(polynomial_coefficient * x_span_mult)
+        reoccuring_px_result = reoccuring_px_result + mult_operation
+        
+
+    ans: float = reoccuring_px_result
+    print(ans)
+    return ans
 
 def problem4():
     print()
@@ -43,4 +88,7 @@ def problem5():
 
 
 if __name__ == "__main__":
+    x_table = [7.2, 7.4, 7.5, 7.6]
     ans1 = problem1(3.7, 2)
+    ans2Matrix = problem2()
+    ans3 = problem3(ans2Matrix, 7.3, x_table)
